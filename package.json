@@ -15,10 +15,10 @@
   "author": "francisco garrido",
   "license": "ISC",
   "dependencies": {
-    "@thiagoelg/node-printer": "^0.6.2",
-    "cors": "^2.8.5",
     "express": "^4.18.2",
-    "node-fetch": "^2.6.7"
+    "cors": "^2.8.5",
+    "node-fetch": "^2.6.7",
+    "@thiagoelg/node-printer": "^0.6.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.22",
