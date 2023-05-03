@@ -1,0 +1,32 @@
+{
+  "name": "philos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "pkg": "pkg --target node16-win-x64 index.js",
+    "build": "ncc build  -o build/lib ./index.js && pkg --target node16-win-x64 -o build/API.exe ./build/lib/index.js"
+  },
+  "keywords": [],
+  "author": "francisco garrido",
+  "license": "ISC",
+  "dependencies": {
+    "@thiagoelg/node-printer": "^0.6.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "node-fetch": "^2.6.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22",
+    "pkg": "^5.8.1"
+  },
+  "pkg": {
+    "assets": [
+      "./node_modules/**/*"
+    ]
+  }
+}
