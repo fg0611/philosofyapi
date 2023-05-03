@@ -1,3 +1,4 @@
+const port = process.env.PORT || 8000;
 const fetch = require("node-fetch");
 const express = require("express");
 const cors = require("cors");
@@ -25,7 +26,6 @@ const corsOp = {
 
 app.use(cors(corsOp));
 
-const port = 8000;
 
 app.get("/", async (req, res) => {
   return res.status(200).send("api working");
