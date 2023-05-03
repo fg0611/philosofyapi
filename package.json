@@ -9,7 +9,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "pkg": "pkg --target node16-win-x64 index.js",
-    "build": "ncc build  -o build/lib ./index.js && pkg --target node16-win-x64 -o build/API.exe ./build/lib/index.js"
+    "win-build": "ncc build  -o build/lib ./index.js && pkg --target node16-win-x64 -o build/API.exe ./build/lib/index.js"
   },
   "keywords": [],
   "author": "francisco garrido",
