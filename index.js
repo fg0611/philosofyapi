@@ -7,15 +7,41 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+const whitelist = [
+  "https://philosofy.vercel.app",
+  "http://127.0.0.1:5173",
+  "http://localhost:5173",
+];
+
 const corsOp = {
-  origin: "*",
+  origin: function (origin, callback) {
+    // allow requests with no origin
+    if (!origin) return callback(null, true);
+    if (whitelist.indexOf(origin) === -1) {
+      console.log(origin);
+      var message =
+        "The CORS policy for this origin doesn't " +
+        "allow access from the particular origin.";
+      return callback(new Error(message), false);
+    } else {
+      console.log("There is a problem with CORS");
+      return callback(null, true);
+    }
+  },
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   preflightContinue: false,
   optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOp));
-
 
 app.get("/", async (req, res) => {
   return res.status(200).send("api working");
@@ -24,14 +50,14 @@ app.get("/", async (req, res) => {
 app.get("/school", async (req, res) => {
   const result = await getBySchool();
   if (result?.length) {
-    return res.status(200).send(result);
+    return res.status(200).json({ message: result });
   }
   return res.status(403).json({ message: "bad request" });
 });
 app.get("/name", async (req, res) => {
   const result = await getByName();
   if (result?.length) {
-    return res.status(200).send(result);
+    return res.status(200).json({ message: result });
   }
   return res.status(403).json({ message: "bad request" });
 });
