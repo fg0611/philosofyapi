@@ -18,18 +18,17 @@ export const chatTurbo = async (prompt) => {
     stop: ["\n"],
   });
   if (response?.data && response.data?.choices[0]?.message?.content?.length) {
-    console.log(response?.data)
     return response.data.choices[0].message.content;
   }
   return false;
 };
 
-export const getText = async (prompt) => {
+export const chatDavinci = async (prompt) => {
   const completion = await openai.createCompletion(
     {
       model: "text-davinci-003",
       prompt: prompt,
-      max_tokens: 100,
+      max_tokens: 500,
       stream: true,
     },
     { responseType: "stream" }

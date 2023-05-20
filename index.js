@@ -2,7 +2,7 @@ import express, { urlencoded, json } from "express";
 import fetch from "node-fetch";
 import cors from "cors";
 import { schools, names } from "./lists.js";
-import { chatTurbo, getText } from "./chat.js";
+import { chatTurbo, chatDavinci } from "./chat.js";
 const port = process.env.PORT || 8000;
 
 // EXPRESS APP
@@ -59,12 +59,24 @@ app.get("/", async (req, res) => {
   return res.status(200).send("api working");
 });
 
+app.get("/api/test", async (req, res) => {
+  try {
+    const response = await chatTurbo("where is paris?");
+    return res.status(200).send({ message: response });
+  } catch (err) {
+    return res.status(err?.status || 500).send(err?.message || "no message");
+  }
+});
 app.post("/api/gpt", async (req, res) => {
   try {
-    const { prompt } = req.body;
-    // return res.status(200).send({ message: prompt });
-    const response = await chatTurbo(prompt);
-    return res.status(200).send({ message: response });
+    if (!req?.body?.prompt?.length) {
+      return res.status(404).json({ message: "bad body!" });
+    }
+    const response = await chatTurbo(req.body.prompt);
+    if (response?.length) {
+      return res.status(200).json({ message: response });
+    }
+    return res.status(200).json({ message: "empty" });
   } catch (err) {
     return res.status(err?.status || 500).send(err?.message || "no message");
   }
@@ -72,14 +84,16 @@ app.post("/api/gpt", async (req, res) => {
 
 app.post("/api/chat", async (req, res) => {
   try {
-    const { prompt } = req.body;
-    const response = await getText(prompt);
-    if (response) {
-      return res.status(200).send({ message: response });
+    if (!req?.body?.prompt?.length) {
+      return res.status(404).json({ message: "bad body!" });
     }
-    return res.status(400).json({ message: "error" });
-  } catch (error) {
-    return res.status(500).json({ message: error });
+    const response = await chatDavinci(req.body.prompt);
+    if (response?.length) {
+      return res.status(200).json({ message: response });
+    }
+    return res.status(200).json({ message: "empty" });
+  } catch (err) {
+    return res.status(err?.status || 500).send(err?.message || "no message");
   }
 });
 
