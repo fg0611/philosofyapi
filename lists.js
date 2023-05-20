@@ -1,0 +1,32 @@
+export const names = [
+    "Marcus Aurelius",
+    "Seneca",
+    "Epictetus",
+    "Alan Watts",
+    "Rumi",
+    "Carl G. Jung",
+    "Friedrich Nietzsche",
+    "Jean-Paul Sartre",
+    "Fyodor Dostoyevsky",
+    "Plato",
+    "Aristotle",
+    "Henry David Thoreau",
+    "Ralph Waldo Emerson",
+    "Christopher McCandless",
+    "René Descartes",
+    "Baruch Spinoz",
+    "Leibniz",
+    "John Locke",
+    "George Berkeley",
+    "David Hume",
+  ];
+  
+export const schools = [
+    "Stoicism",
+    "Mysticism",
+    "Existentialism",
+    "Classical Greek",
+    "Transcendentalism",
+    "Rationalism",
+    "Empiricism",
+  ];

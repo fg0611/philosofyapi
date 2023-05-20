@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "bin": "index.js",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
@@ -15,9 +15,12 @@
   "author": "francisco garrido",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.4.0",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "node-fetch": "^2.6.7"
+    "node-fetch": "^2.6.7",
+    "openai": "^3.2.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
