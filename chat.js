@@ -7,6 +7,22 @@ const openai = new OpenAIApi(
     apiKey: process.env.GPT_KEY,
   })
 );
+export const chatTurbo = async (prompt) => {
+  const response = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",
+    messages: [{ role: "user", content: prompt }],
+    max_tokens: 100,
+    temperature: 0.9,
+    n: 1,
+    stream: false,
+    stop: ["\n"],
+  });
+  if (response?.data && response.data?.choices[0]?.message?.content?.length) {
+    console.log(response?.data)
+    return response.data.choices[0].message.content;
+  }
+  return false;
+};
 
 export const getText = async (prompt) => {
   const completion = await openai.createCompletion(

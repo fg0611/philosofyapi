@@ -1,8 +1,8 @@
 import express, { urlencoded, json } from "express";
 import fetch from "node-fetch";
-// import cors from "cors";
+import cors from "cors";
 import { schools, names } from "./lists.js";
-import { getText } from "./chat.js";
+import { chatTurbo, getText } from "./chat.js";
 const port = process.env.PORT || 8000;
 
 // EXPRESS APP
@@ -19,17 +19,18 @@ app.use(json());
 //   );
 //   next();
 // });
-// const whitelist = [
-//   "https://philosofy.vercel.app",
-//   "http://127.0.0.1:5173",
-//   "http://localhost:5173"
-// ];
 
-// const corsOp = {
-//   AccessControlAllowOrigin: '*',
-//   origin: '*',
-//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
-// }
+const whitelist = [
+  "https://philosofy.vercel.app",
+  "http://127.0.0.1:5173",
+  "http://localhost:5173",
+];
+
+const corsOp = {
+  AccessControlAllowOrigin: '*',
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
+}
 
 // const corsOp = {
 //   origin: function (origin, callback) {
@@ -51,16 +52,26 @@ app.use(json());
 //   optionsSuccessStatus: 200,
 // };
 
-// app.use(cors(corsOp));
+app.use(cors(corsOp));
 
 app.get("/", async (req, res) => {
   return res.status(200).send("api working");
 });
 
+app.post("/api/gpt", async (req, res) => {
+  try {
+    const { prompt } = req.body;
+    // return res.status(200).send({ message: prompt });
+    const response = await chatTurbo(prompt);
+    return res.status(200).send({ message: response });
+  } catch (err) {
+    return res.status(err?.status || 500).send(err?.message || "no message");
+  }
+});
+
 app.post("/api/chat", async (req, res) => {
   try {
     const { prompt } = req.body;
-    // return res.status(200).send({ message: "response!" });
     const response = await getText(prompt);
     if (response) {
       return res.status(200).send({ message: response });
