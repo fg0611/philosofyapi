@@ -20,11 +20,31 @@ app.use(function (req, res, next) {
   next();
 });
 
-const whitelist = [
-  "https://philosofy.vercel.app",
-  "http://127.0.0.1:5173",
-  "http://localhost:5173",
-];
+// const whitelist = [
+//   "https://philosofy.vercel.app",
+//   "http://127.0.0.1:5173",
+//   "http://localhost:5173",
+// ];
+
+// const corsOp = {
+//   origin: function (origin, callback) {
+//     // allow requests with no origin
+//     if (!origin) return callback(null, true);
+//     if (whitelist.indexOf(origin) === -1) {
+//       console.log(origin);
+//       var message =
+//         "The CORS policy for this origin doesn't " +
+//         "allow access from the particular origin.";
+//       return callback(new Error(message), false);
+//     } else {
+//       console.log("There is a problem with CORS");
+//       return callback(null, true);
+//     }
+//   },
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//   preflightContinue: false,
+//   optionsSuccessStatus: 200,
+// };
 
 // const corsOp = {
 //   AccessControlAllowOrigin: '*',
@@ -32,27 +52,8 @@ const whitelist = [
 //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
 // }
 
-const corsOp = {
-  origin: function (origin, callback) {
-    // allow requests with no origin
-    if (!origin) return callback(null, true);
-    if (whitelist.indexOf(origin) === -1) {
-      console.log(origin);
-      var message =
-        "The CORS policy for this origin doesn't " +
-        "allow access from the particular origin.";
-      return callback(new Error(message), false);
-    } else {
-      console.log("There is a problem with CORS");
-      return callback(null, true);
-    }
-  },
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  preflightContinue: false,
-  optionsSuccessStatus: 200,
-};
-
-app.use(cors(corsOp));
+// app.use(cors(corsOp));
+app.use(cors());
 
 app.get("/", async (req, res) => {
   return res.status(200).send("api working");
