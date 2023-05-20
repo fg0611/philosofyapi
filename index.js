@@ -26,31 +26,31 @@ const whitelist = [
   "http://localhost:5173",
 ];
 
-const corsOp = {
-  AccessControlAllowOrigin: '*',
-  origin: '*',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
-}
-
 // const corsOp = {
-//   origin: function (origin, callback) {
-//     // allow requests with no origin
-//     if (!origin) return callback(null, true);
-//     if (whitelist.indexOf(origin) === -1) {
-//       console.log(origin);
-//       var message =
-//         "The CORS policy for this origin doesn't " +
-//         "allow access from the particular origin.";
-//       return callback(new Error(message), false);
-//     } else {
-//       console.log("There is a problem with CORS");
-//       return callback(null, true);
-//     }
-//   },
-//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-//   preflightContinue: false,
-//   optionsSuccessStatus: 200,
-// };
+//   AccessControlAllowOrigin: '*',
+//   origin: '*',
+//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
+// }
+
+const corsOp = {
+  origin: function (origin, callback) {
+    // allow requests with no origin
+    if (!origin) return callback(null, true);
+    if (whitelist.indexOf(origin) === -1) {
+      console.log(origin);
+      var message =
+        "The CORS policy for this origin doesn't " +
+        "allow access from the particular origin.";
+      return callback(new Error(message), false);
+    } else {
+      console.log("There is a problem with CORS");
+      return callback(null, true);
+    }
+  },
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  preflightContinue: false,
+  optionsSuccessStatus: 200,
+};
 
 app.use(cors(corsOp));
 
