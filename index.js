@@ -69,14 +69,15 @@ app.get("/api/test", async (req, res) => {
 });
 app.post("/api/gpt", async (req, res) => {
   try {
-    if (!req?.body?.prompt?.length) {
+    const { prompt } = req?.body;
+    if (!prompt?.length) {
       return res.status(404).json({ message: "bad body!" });
     }
-    const response = await chatTurbo(req.body.prompt);
+    const response = await chatTurbo(prompt);
     if (response?.length) {
-      return res.status(200).json({ message: response });
+      return res.status(200).json({ message: { prompt, response } });
     }
-    return res.status(200).json({ message: "empty" });
+    return res.status(200).json({ message: { prompt, response: "empty" } });
   } catch (err) {
     return res.status(err?.status || 500).send(err?.message || "no message");
   }
@@ -84,14 +85,15 @@ app.post("/api/gpt", async (req, res) => {
 
 app.post("/api/chat", async (req, res) => {
   try {
-    if (!req?.body?.prompt?.length) {
+    const { prompt } = req?.body;
+    if (!prompt?.length) {
       return res.status(404).json({ message: "bad body!" });
     }
-    const response = await chatDavinci(req.body.prompt);
+    const response = await chatDavinci(prompt);
     if (response?.length) {
-      return res.status(200).json({ message: response });
+      return res.status(200).json({ message: { prompt, response } });
     }
-    return res.status(200).json({ message: "empty" });
+    return res.status(200).json({ message: { prompt, response: "empty" } });
   } catch (err) {
     return res.status(err?.status || 500).send(err?.message || "no message");
   }
